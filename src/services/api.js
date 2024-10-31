@@ -13,7 +13,7 @@ export async function makeRequest({
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const apiUrl = `https://api.coinlore.net/api/${url}`;
 
-  const urlWithParams = new URL(proxyUrl + apiUrl);
+  const urlWithParams = new URL(apiUrl);
   Object.keys(params).forEach((key) =>
     urlWithParams.searchParams.append(key, params[key])
   );
