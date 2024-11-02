@@ -1,19 +1,11 @@
-const defaultHeaders = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-};
-
-export async function makeRequest({
+export async function makeApiRequest({
   method = "GET",
   url,
   data = null,
   headers = {},
   params = {},
 }) {
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const apiUrl = `https://api.coinlore.net/api/${url}`;
-
-  const urlWithParams = new URL(apiUrl);
+  const urlWithParams = new URL(url);
   Object.keys(params).forEach((key) =>
     urlWithParams.searchParams.append(key, params[key])
   );
@@ -22,7 +14,7 @@ export async function makeRequest({
     const response = await fetch(urlWithParams, {
       method,
       body: data && JSON.stringify(data),
-      headers: { ...defaultHeaders, ...headers },
+      headers: { ...headers },
     });
     const result = response.json();
     return result;
