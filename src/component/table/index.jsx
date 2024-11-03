@@ -2,7 +2,7 @@ import React from "react";
 
 const CustomTable = ({ tableStyles, TableHeadStyle, TableHead, Tablebody }) => {
   return (
-    <div className="table-wrapper">
+    <div>
       <table className={tableStyles || "table-styles"}>
         <thead>
           <tr className={TableHeadStyle || "table-head-row"}>

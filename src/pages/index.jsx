@@ -29,10 +29,10 @@ const CoinBodyItem = ({ data }) => {
       {data.map((obj) => {
         return (
           <tr key={obj.name}>
-            <td>{obj.name}</td>
-            <td>{obj.symbol}</td>
-            <td>${obj.price_usd}</td>
-            <td>
+            <td data-label="💰 Coin">{obj.name}</td>
+            <td data-label="📄 Code ">{obj.symbol}</td>
+            <td data-label="🤑 Price ">${obj.price_usd}</td>
+            <td data-label="📉 Total Supply ">
               {obj.tsupply}
               {obj.symbol}
             </td>
