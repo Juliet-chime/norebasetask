@@ -3,11 +3,8 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 export const PaginationComponent = ({
   isFirstPage,
-  isLastPage,
   goOnNextPage,
   goOnPrevPage,
-  currentPageNumber,
-  totalPageNo,
 }) => {
   return (
     <div className="btn-container" style={{ justifyContent: "space-between" }}>
@@ -19,17 +16,9 @@ export const PaginationComponent = ({
         ) : null}
       </div>
       <div>
-        {" "}
-        <p>
-          {currentPageNumber}/{totalPageNo}
-        </p>
-      </div>
-      <div>
-        {!isLastPage ? (
-          <button onClick={goOnNextPage}>
-            Next <FaArrowRight />
-          </button>
-        ) : null}
+        <button onClick={goOnNextPage}>
+          Next <FaArrowRight />
+        </button>
       </div>
     </div>
   );

@@ -5,7 +5,8 @@ export async function makeApiRequest({
   headers = {},
   params = {},
 }) {
-  const urlWithParams = new URL(url);
+  const baseUrl = "https://api.coinlore.net/api/";
+  const urlWithParams = new URL(`${baseUrl}${url}`);
   Object.keys(params).forEach((key) =>
     urlWithParams.searchParams.append(key, params[key])
   );

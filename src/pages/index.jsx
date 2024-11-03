@@ -44,25 +44,19 @@ const CoinBodyItem = ({ data }) => {
 };
 
 const HomePage = () => {
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [dataToDisplay, setDataToDisplay] = useState([]);
   const [coinData, setCoinData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const TOTAL_VALUES_PER_PAGE = 10;
+  const [start, setStart] = useState(0);
+  const [limit, setLimit] = useState(10);
 
-  const totalPageNo = coinData.length / TOTAL_VALUES_PER_PAGE;
-  const isLastPage =
-    currentPageNumber === coinData.length / TOTAL_VALUES_PER_PAGE;
-  const isFirstPage = currentPageNumber === 1;
+  const isFirstPage = start === 0;
 
   const goOnPrevPage = () => {
-    if (currentPageNumber === 1) return;
-    setCurrentPageNumber((prev) => prev - 1);
+    setStart((prev) => prev - 10);
   };
 
   const goOnNextPage = () => {
-    if (currentPageNumber === totalPageNo) return;
-    setCurrentPageNumber((prev) => prev + 1);
+    setStart((prev) => prev + 10);
   };
 
   useEffect(() => {
@@ -70,8 +64,9 @@ const HomePage = () => {
       try {
         setLoading(true);
         const res = await makeApiRequest({
-          url: `https://disablecorsforcoin.vercel.app/api/tickers`,
+          url: `tickers/?start=${start}&limit=${limit}`,
         });
+        console.log(res);
         setCoinData(res.data);
       } catch (e) {
         console.log(e);
@@ -80,13 +75,7 @@ const HomePage = () => {
       }
     }
     getcoinData();
-  }, []);
-
-  useEffect(() => {
-    const start = (currentPageNumber - 1) * TOTAL_VALUES_PER_PAGE;
-    const end = currentPageNumber * TOTAL_VALUES_PER_PAGE;
-    setDataToDisplay(coinData.slice(start, end));
-  }, [currentPageNumber, coinData]);
+  }, [start, limit]);
 
   return (
     <div className="container">
@@ -130,16 +119,13 @@ const HomePage = () => {
                     TableHead={() => (
                       <CoinHeadItem tableHeadData={tableHeadData} />
                     )}
-                    Tablebody={() => <CoinBodyItem data={dataToDisplay} />}
+                    Tablebody={() => <CoinBodyItem data={coinData} />}
                   />
                 </div>
                 <PaginationComponent
                   isFirstPage={isFirstPage}
-                  isLastPage={isLastPage}
                   goOnNextPage={goOnNextPage}
                   goOnPrevPage={goOnPrevPage}
-                  currentPageNumber={currentPageNumber}
-                  totalPageNo={totalPageNo}
                 />
               </>
             )}
