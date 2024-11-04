@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { makeApiRequest } from "../services/api";
-import Loader from "../component/loader";
 import { PaginationComponent } from "../component/pagination/PaginationComponent";
 import CustomTable from "../component/table";
 import { tableHeadData } from "../data/tableHeadData";
@@ -62,16 +61,12 @@ const HomePage = () => {
   useEffect(() => {
     async function getcoinData() {
       try {
-        setLoading(true);
         const res = await makeApiRequest({
           url: `tickers/?start=${start}&limit=${limit}`,
         });
-        console.log(res);
         setCoinData(res.data);
       } catch (e) {
         console.log(e);
-      } finally {
-        setLoading(false);
       }
     }
     getcoinData();
@@ -91,46 +86,42 @@ const HomePage = () => {
           Cryptocurrency Coins
         </h1>
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {!coinData.length ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "20px 0px",
-                }}
-              >
-                <div className="w-20 h-20 bg-[#cccccc] rounded-full flex items-center justify-center">
-                  <MdHourglassEmpty fontSize={30} />
-                </div>
-                <p style={{ fontWeight: "700", fontSize: "14px" }}>
-                  No cryptocurrency coin to display
-                </p>
+        <>
+          {!coinData.length ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "20px 0px",
+              }}
+            >
+              <div className="w-20 h-20 bg-[#cccccc] rounded-full flex items-center justify-center">
+                <MdHourglassEmpty fontSize={30} />
               </div>
-            ) : (
-              <>
-                <div className="table-wrapper">
-                  <CustomTable
-                    TableHead={() => (
-                      <CoinHeadItem tableHeadData={tableHeadData} />
-                    )}
-                    Tablebody={() => <CoinBodyItem data={coinData} />}
-                  />
-                </div>
-                <PaginationComponent
-                  isFirstPage={isFirstPage}
-                  goOnNextPage={goOnNextPage}
-                  goOnPrevPage={goOnPrevPage}
+              <p style={{ fontWeight: "700", fontSize: "14px" }}>
+                No cryptocurrency coin to display
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="table-wrapper">
+                <CustomTable
+                  TableHead={() => (
+                    <CoinHeadItem tableHeadData={tableHeadData} />
+                  )}
+                  Tablebody={() => <CoinBodyItem data={coinData} />}
                 />
-              </>
-            )}
-          </>
-        )}
+              </div>
+              <PaginationComponent
+                isFirstPage={isFirstPage}
+                goOnNextPage={goOnNextPage}
+                goOnPrevPage={goOnPrevPage}
+              />
+            </>
+          )}
+        </>
       </div>
     </div>
   );
